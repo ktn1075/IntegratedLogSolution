@@ -58,8 +58,33 @@
 
 ## 1.  기능 
 
+- Alram Batch 
+  - Server에서 로그 수신 시, 알람 기본 테이블 바탕으로 알림 배치 수행 (메일 OR 문자)
+  - 특정 시간마다, 종합 현황 알림 배치 처리
+
+</br>
+
+- Server 
+  - 에이전트 등록
+  - 차단 리스트 발송
+  - 차단 로그 수신
+  - agent helath(프로세스 상태) check 기능)
+
+</br>
+
+- View
+  - 관리자 로그인, 등록
+  - 그룹 추가, 관리
+  - 그룹 별 불 추가, 관리
+  - 실시간 에이전트 현황 관리
+  - 에이전트 관리
+  - 로그 view
 
 
 ## 2.  구조
+- Alram Batch : spring batch
+- server : spring mvc, jpa
+- view : react
+- db : postgreSQL
 
 
