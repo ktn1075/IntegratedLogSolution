@@ -88,10 +88,15 @@
 - db : postgreSQL
 
 
+</br>
 
 ## DATABASE 
 
+</br>
 
+## 제한사항 
+-  Agent -> Master 단방향 지원
+  - Rest/Api 방식으로 마스터와 통신하기에 내부 유동 IP를 사용하는 Agent에게 통신이 어려움. 
 
 
 
