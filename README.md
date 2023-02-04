@@ -92,6 +92,10 @@
 
 ## DATABASE 
 
+![image]https://github.com/ktn1075/IntegratedLogSolution/blob/main/DB%20%EC%84%A4%EA%B3%84.png
+
+
+
 </br>
 
 ## 제한사항 
