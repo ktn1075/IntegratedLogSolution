@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\LogAgent",
+    "\\LogAgent\\LogAgent",
+    "\\LogAgent\\LogAgent\\Agent"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\LogAgent\\LogAgent\\Agent\\WindowsAgent.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -12,14 +12,24 @@ namespace LogAgent
         /// <summary>
         /// 해당 애플리케이션의 주 진입점입니다.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            // debuging 용 Conosle 실행
+            // 프로젝트 설정 프로그램 속성 변경도 필요하다.
+            if (Environment.UserInteractive)
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                LogService logService = new LogService();
+                logService.TestStartupAndStop(args);
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
+                    new LogService()
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
         }
     }
 }

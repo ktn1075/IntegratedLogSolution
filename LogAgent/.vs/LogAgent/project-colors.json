@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a6dca253-1ae7-42ef-b628-c4a7f61de81b": {
+      "ProjectGuid": "a6dca253-1ae7-42ef-b628-c4a7f61de81b",
+      "DisplayName": "LogAgent",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

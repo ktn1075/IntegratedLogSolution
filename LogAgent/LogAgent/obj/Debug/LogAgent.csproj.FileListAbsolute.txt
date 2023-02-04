@@ -1,0 +1,11 @@
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\bin\Debug\LogAgent.exe.config
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\bin\Debug\LogAgent.exe
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\bin\Debug\LogAgent.pdb
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\bin\Debug\NLog.dll
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\bin\Debug\NLog.xml
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.csproj.AssemblyReference.cache
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.csproj.SuggestedBindingRedirects.cache
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.csproj.CoreCompileInputs.cache
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.csproj.CopyComplete
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.exe
+C:\Users\ktn10\Desktop\Project\logsolution\IntegratedLogSolution\LogAgent\LogAgent\obj\Debug\LogAgent.pdb
