@@ -4,38 +4,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using System.Net.NetworkInformation;
 
 namespace Utils
 {
-    static class RegistryManager
+    // 자주 쓰는 객체가 아니기에 싱글톤으로 만들지 않는다.
+    public static class RegistryManager
     {
         const string RegistryName = "HKEY_LOCAL_MACHINE";
-        const string RegistrySubKey = "LogAgentKey";
+        const string RegistrySubKey = @"Software\LogAgentKey";
+        const string HMAC = "UniqeKey"; 
 
-        public static bool RegistryAdd()
+        public static void RegistryAdd()
         {
-            // 키 조회
-            // 키 만들기 
-            // 하위 키 만들기 
-            RegistryKey rkey = Registry.LocalMachine.OpenSubKey(RegistrySubKey);
+            RegistryKey regKey = Registry.LocalMachine.CreateSubKey(RegistrySubKey);
 
-            return false;
+            regKey.SetValue(HMAC,"");
+
         }
 
         public static bool RegistryFind()
         {
-            return false;
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(RegistrySubKey);
+
+            if (registryKey == null)   
+                return false;
+
+            return true;
         }
 
         public static string RegistryGetValue()
         {
-            return "test";
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(RegistrySubKey);
+
+            return registryKey.GetValue(HMAC).ToString();
         }
     }
 
-    // Json 데이터 포맷팅
+    // 현재는 MAC주소를 받아오는 부분만 있지만 추가 소켓 등 추가 할 예정 
+    // 자주 쓰는 객체가 아니기에 싱글톤으로 만들지 않는다.
 
+    public static class NetworkManager
+    {
+       public static string getMac()
+        {
+            string macAddress = NetworkInterface.GetAllNetworkInterfaces()
+            .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+            .Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault();
 
+            return macAddress;
+        }
+    }
 
+  
 }
 
