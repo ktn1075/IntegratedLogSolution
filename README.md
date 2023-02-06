@@ -102,5 +102,12 @@
 -  Agent -> Master 단방향 지원
    - Rest/Api 방식으로 마스터와 통신하기에 내부 유동 IP를 사용하는 Agent 먼저 통신하기에 제한됨.
 
+</br>
 
+## 도구 
+- 프로젝트관리 : JIRA 
+- 패키징 : WIX 
+- IDE : VisualStudio, Intelij
+- DBMS : ?
+- 업무협업툴 : Slack
 
