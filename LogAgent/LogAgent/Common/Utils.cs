@@ -31,7 +31,6 @@ namespace Utils
         {
             return "test";
         }
-
     }
 
     // Json 데이터 포맷팅

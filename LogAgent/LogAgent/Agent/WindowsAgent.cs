@@ -22,8 +22,5 @@ namespace LogAgent.Agent
         // HMAC
         // 
 
-
-
-
     }
 }

@@ -3,8 +3,9 @@
     "",
     "\\LogAgent",
     "\\LogAgent\\LogAgent",
-    "\\LogAgent\\LogAgent\\Agent"
+    "\\LogAgent\\LogAgent\\Agent",
+    "\\LogAgent\\LogAgent\\Common"
   ],
-  "SelectedNode": "\\LogAgent\\LogAgent\\Agent\\WindowsAgent.cs",
+  "SelectedNode": "\\LogAgent\\LogAgent\\Common\\Utils.cs",
   "PreviewInSolutionExplorer": false
 }
