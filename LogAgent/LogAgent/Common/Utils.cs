@@ -14,31 +14,26 @@ namespace Utils
 
     public static class RegistryManager
     {
+        // 현재는 관련 설정 값을 들고 있지만 나중에는 CONFIG 파일로 만들어서 처리한다.
+        // 나중에 CONFIG 파일을 만들어서 처리한다.
         const string RegistryName = "HKEY_LOCAL_MACHINE";
-        const string RegistrySubKey = @"Software\LogAgentKey";
+        const string RegistrySubKey = @"SOFTWARE\LogAgentKey";
         const string HMAC = "UniqeKey"; 
 
         public static void RegistryAdd(string hamc)
         {
-            RegistryKey regKey = Registry.LocalMachine.CreateSubKey(RegistrySubKey);
+            RegistryKey regKey = Registry.LocalMachine.CreateSubKey(RegistrySubKey,RegistryKeyPermissionCheck.ReadWriteSubTree);
 
             regKey.SetValue(HMAC,hamc);
 
         }
 
-        public static bool RegistryFind()
+        public static string RegistryFind()
         {
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(RegistrySubKey);
 
             if (registryKey == null)   
-                return false;
-
-            return true;
-        }
-
-        public static string RegistryGetValue()
-        {
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(RegistrySubKey);
+                return null;
 
             return registryKey.GetValue(HMAC).ToString();
         }

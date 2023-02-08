@@ -42,9 +42,9 @@ namespace LogAgent
             {
                 try
                 {
-                    if(Utils.RegistryManager.RegistryFind())
+                    if(Utils.RegistryManager.RegistryFind() == null)
                     {
-                        
+                        // agent 에게 전달 한다.
                     }
                     else
                     {
