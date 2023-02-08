@@ -28,7 +28,7 @@ namespace LogAgent.Agent
             }
         }
 
-        private void test2()
+        private void monitor()
         {
             while(true)
             {
@@ -48,7 +48,7 @@ namespace LogAgent.Agent
                 {
                     try
                     {
-                        test2();
+                        monitor();
                     }
                     catch (Exception ex)
                     {

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 
@@ -15,6 +16,8 @@ namespace LogAgent
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private Agent.Agent _agent;
+        private Thread _s;
+        private Utils.Cryptor _cryptor = Utils.Cryptor.Instance;
 
         public LogService()
         {
@@ -25,16 +28,7 @@ namespace LogAgent
         {
             // Onstart 서비스의 시작 지점이니 hang 이 걸리게되면 서비스 등록 자체가 멈춘다.
             // 그렇기 때문에 쓰레드 형태로 START 함수를 뺀 상태로 처리한다.
-            try
-            {
-                _agent = Agent.Agent.New("windows");
-                _agent.Start();
-            }
-            catch(Exception ex)
-            {
-
-            }
-
+            Start("windows");
         }
 
         protected override void OnStop()
@@ -42,6 +36,38 @@ namespace LogAgent
 
         }
 
+        protected void Start(string target)
+        {
+            _s = new Thread(() =>
+            {
+                try
+                {
+                    if(Utils.RegistryManager.RegistryFind())
+                    {
+                        
+                    }
+                    else
+                    {
+                        string macAddress = Utils.NetworkManager.getMac();
+                        string hmac = _cryptor.EncryptSHA512(macAddress, Encoding.Unicode);
+                        Utils.RegistryManager.RegistryAdd(hmac);
+                    }
+                    _agent = Agent.Agent.New("windows");
+
+                    _agent.Start();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                }
+            })
+            {
+                IsBackground = true
+            };
+
+            _s.Start();
+        }
+        
         internal void TestStartupAndStop(string[] args)
         {
             this.OnStart(args);
