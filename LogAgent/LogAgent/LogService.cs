@@ -42,17 +42,18 @@ namespace LogAgent
             {
                 try
                 {
-                    if(Utils.RegistryManager.RegistryFind() == null)
-                    {
-                        // agent 에게 전달 한다.
-                    }
-                    else
+                    string agentHmac = Utils.RegistryManager.RegistryFind();
+ 
+                    if (agentHmac == null)
                     {
                         string macAddress = Utils.NetworkManager.getMac();
                         string hmac = _cryptor.EncryptSHA512(macAddress, Encoding.Unicode);
                         Utils.RegistryManager.RegistryAdd(hmac);
                     }
-                    _agent = Agent.Agent.New("windows");
+
+                    string[] args = { target, agentHmac };
+
+                    _agent = Agent.Agent.New(args);
 
                     _agent.Start();
                 }

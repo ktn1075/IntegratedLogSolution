@@ -12,19 +12,22 @@ namespace LogAgent.Agent
         private Thread _t;
         private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
+        public abstract string RestServerHostName { get; }
+        public abstract int RestServerPort { get; }
+
         /*
         * 서버, 프로그램, 패키지 다양한 환경에서 처리를 위해 추상 클래스로 작성 
         */
-
-        public static Agent New(string mode)
+        // args 순서 :  mode, hamc, 
+        public static Agent New(string[] args)
         {
-            switch (mode)
+            switch (args[0])
             {
                 case "windows":
-                    return new WindowsAgent();
+                    return new WindowsAgent(args[1]);
 
                 default:
-                    throw new Exception($"Invalid mode: {mode}");
+                    throw new Exception($"Invalid mode: {args[0]}");
             }
         }
 
@@ -66,5 +69,10 @@ namespace LogAgent.Agent
 
             _t.Start();
         }
+
+        // 현재는 REST/API 방식이지만 agent 마다 서버 요청 방식이 다를수도 있다.
+        public abstract bool ServerRequest(string url);
+
+        public abstract void AgentAdd(string hMac);
     }
 }

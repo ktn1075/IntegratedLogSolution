@@ -9,13 +9,13 @@ using System.Net.NetworkInformation;
 namespace Utils
 {
     /*
-     *  윈도우 서비스는 영역 0에서 돌아가기 때문에 레지스트리에 접근하는게 문제가 없다 ,.
+     *  윈도우 서비스는 영역 0에서 돌아가기 때문에 레지스트리에 접근하는게 문제가 없지만
+     *  디버깅 시에는 관리자권한으로 ide를 실행해야 한다.
      */
 
     public static class RegistryManager
     {
-        // 현재는 관련 설정 값을 들고 있지만 나중에는 CONFIG 파일로 만들어서 처리한다.
-        // 나중에 CONFIG 파일을 만들어서 처리한다.
+        // TODO :  현재는 관련 설정 값을 들고 있지만 나중에는 CONFIG 파일로 만들어서 처리한다.
         const string RegistryName = "HKEY_LOCAL_MACHINE";
         const string RegistrySubKey = @"SOFTWARE\LogAgentKey";
         const string HMAC = "UniqeKey"; 
@@ -45,9 +45,10 @@ namespace Utils
     public class NetworkManager
     {
 
-       // 현재 0번째 어뎁터의 값을 가지고 오는 방법도 있지만. 가상환경으로 실행시 실제 MAC주소를 못받아 올 수 있다.
-       // NIC 접근해서 직접 가지고 온다.
-       public static string getMac()
+        // 현재 0번째 어뎁터의 값을 가지고 오는 방법도 있지만. 
+        // 가상환경으로 실행시 실제 MAC주소를 못받아 올 수 있다.
+        // NIC 접근해서 직접 가지고 온다.
+        public static string getMac()
         {
             string macAddress = NetworkInterface.GetAllNetworkInterfaces()
             .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
