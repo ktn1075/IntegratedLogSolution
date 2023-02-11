@@ -17,7 +17,7 @@ namespace LogAgent
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private Agent.Agent _agent;
         private Thread _s;
-        private Utils.Cryptor _cryptor = Utils.Cryptor.Instance;
+        private Cryptor _cryptor = Cryptor.Instance;
 
         public LogService()
         {
@@ -42,13 +42,13 @@ namespace LogAgent
             {
                 try
                 {
-                    string agentHmac = Utils.RegistryManager.RegistryFind();
+                    string agentHmac = RegistryManager.RegistryFind();
  
                     if (agentHmac == null)
                     {
-                        string macAddress = Utils.NetworkManager.getMac();
+                        string macAddress = SystemInfoManager.getMac();
                         string hmac = _cryptor.EncryptSHA512(macAddress, Encoding.Unicode);
-                        Utils.RegistryManager.RegistryAdd(hmac);
+                        RegistryManager.RegistryAdd(hmac);
                     }
 
                     string[] args = { target, agentHmac };
@@ -69,6 +69,7 @@ namespace LogAgent
             _s.Start();
         }
         
+        // 디버그로 시작시 해당 함수를 실행한다.
         internal void TestStartupAndStop(string[] args)
         {
             this.OnStart(args);

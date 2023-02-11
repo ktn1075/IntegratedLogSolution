@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace LogAgent.Agent
 {
@@ -31,15 +33,6 @@ namespace LogAgent.Agent
             }
         }
 
-        private void monitor()
-        {
-            while(true)
-            {
-                Console.WriteLine("test");
-                Thread.Sleep(1000);
-            }
-        }
-
         public void Start()
         {
             if (_t!= null)
@@ -51,7 +44,7 @@ namespace LogAgent.Agent
                 {
                     try
                     {
-                        monitor();
+                        Monitor();
                     }
                     catch (Exception ex)
                     {
@@ -70,9 +63,52 @@ namespace LogAgent.Agent
             _t.Start();
         }
 
-        // 현재는 REST/API 방식이지만 agent 마다 서버 요청 방식이 다를수도 있다.
-        public abstract bool ServerRequest(string url);
+        protected void Monitor()
+        {
+
+        }
+
+        protected JObject ServerRequest(string URL, Dictionary<string, string> param)
+        {
+            try
+            {
+                string url = $"http://{RestServerHostName}:{RestServerPort}/{URL}";
+
+                var client = new RestClient(url);
+
+                var request = new RestRequest
+                {
+                    Method = Method.Get,
+                    Timeout = 1000        // mesc 
+                };
+
+                foreach (KeyValuePair<string, string> pair in param)
+                {
+                    request.AddParameter(pair.Key, pair.Value, ParameterType.QueryString);
+                }
+
+                RestResponse response = client.Execute(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    return JObject.Parse(response.Content);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"request 전송에러 : {0}",ex);
+            }
+
+            return null;
+        }
 
         public abstract void AgentAdd(string hMac);
+        public abstract void HeartbitSend();
     }
+
+    class AgentInfo
+    {
+        public String AgentId { get; set; }
+        public String GroupId { get; set; }
+    }
+
+    
 }
