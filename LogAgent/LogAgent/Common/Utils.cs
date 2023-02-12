@@ -95,8 +95,6 @@ public class Utils
         else if (delayCount <= 90) return 3;
         else return 60;
     }
-
-
 }
 
 

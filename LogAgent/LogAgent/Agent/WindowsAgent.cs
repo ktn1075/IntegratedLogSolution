@@ -8,12 +8,14 @@ using RestSharp;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Security.Principal;
+using System.Diagnostics;
 
 namespace LogAgent.Agent
 {
     class WindowsAgent :Agent
     {
-        AgentInfo _defalutInfo = new AgentInfo();
+        AgentInfo _agentInfo = new AgentInfo();
+        DenyListInfo _denyInfo = new DenyListInfo();
 
         public override string RestServerHostName => "127.0.0.1";
 
@@ -30,7 +32,7 @@ namespace LogAgent.Agent
         // 처음 등록시에는 새로 생성된 정보 , 등록 이후에는 hMac에 해당되는 정보를 받아온다.
         // 서버로 부터 해당 값을 받을때 까지 시간 지연을 하면서 요청한다.
 
-        public override void AgentAdd(string hMac)
+        protected override void AgentAdd(string hMac)
         {
             Dictionary<string,string> keyValuePairs = new Dictionary<string,string>();
 
@@ -52,23 +54,56 @@ namespace LogAgent.Agent
             }
 
             //TODO : 추후 JSON에서 키 존재 여부를 확인해야 한다.
-           _defalutInfo = JsonConvert.DeserializeObject<AgentInfo>(jobj.ToString());
+            _agentInfo = JsonConvert.DeserializeObject<AgentInfo>(jobj.ToString());
         }
 
         /*
              Request : 실행중인 APP 정보, 현재 세션 사용자, AppInfo 정보를 보낸다. 
              Response : x
              
-             10초 단위로 계속해서 서버로 로그를 전송하고, 프로그램 실행과 밀접한 연관이 없기때문에
+             30초 단위로 계속해서 서버로 정보를 전송하고, 프로그램 실행과 밀접한 연관이 없기때문에
              계속해서 전송하지는 않는다.
          */
-        public override void HeartbitSend()
+
+        protected override void HeartbitSend()
         {
 
+            // TODO : Heartbit에 어떤거 넣을건지 논의 필요 
             string loginUser = WindowsIdentity.GetCurrent().Name;
 
+            // _agentInfo
 
-            throw new NotImplementedException();
+            Console.WriteLine(loginUser);
+
+            // throw new NotImplementedException();
+        }
+
+        protected override bool ProcessCheck()
+        {
+            //TODO : 전체 리스트를 보내면 너무 많다. 이부분에 대한 논의 필요
+            // string loginUser = WindowsIdentity.GetCurrent().Name;
+            try
+            {
+               Process[] allProc = Process.GetProcesses();
+               foreach (Process p in allProc)
+               {
+                    Console.WriteLine(p.Handle);
+                    //if(p.GetType().Name =="App")
+                     
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
+
+        }
+
+        protected override void DenyListRequest()
+        {
+            // hamc 
         }
     }
 }
