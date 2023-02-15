@@ -16,6 +16,7 @@ namespace LogAgent.Agent
     {
         AgentInfo _agentInfo = new AgentInfo();
         DenyListInfo _denyInfo = new DenyListInfo();
+        Dictionary<int, string> preProcess;
 
         public override string RestServerHostName => "127.0.0.1";
 
@@ -80,25 +81,60 @@ namespace LogAgent.Agent
 
         protected override bool ProcessCheck()
         {
+            bool IsUpdate = false;
+
             //TODO : 전체 리스트를 보내면 너무 많다. 이부분에 대한 논의 필요
             // string loginUser = WindowsIdentity.GetCurrent().Name;
             try
             {
                Process[] allProc = Process.GetProcesses();
+               
+               Dictionary<int, string> tempProcess =new Dictionary<int, string>();
+
                foreach (Process p in allProc)
                {
-                    Console.WriteLine(p.Handle);
-                    //if(p.GetType().Name =="App")
-                     
+                    tempProcess.Add(p.Id,p.ProcessName);
+               }
+
+                if (preProcess == null)
+                {
+                    preProcess = tempProcess;
+                    IsUpdate = true;
+                }
+                else
+                {
+                    if (tempProcess.Count != preProcess.Count)
+                    {
+                        preProcess = tempProcess;
+                        IsUpdate = true;
+                    }
+                    else
+                    {
+                        foreach (var item in tempProcess)
+                        {
+                            if (!preProcess.ContainsKey(item.Key))
+                            {
+                                preProcess = tempProcess;
+                                IsUpdate = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex);
             }
 
+            if (IsUpdate)
+            {
+                foreach (var item in preProcess)
+                {
+                    Console.WriteLine(item.Value.ToString());
+                }
+            }
             return false;
-
         }
 
         protected override void DenyListRequest()
