@@ -69,14 +69,11 @@ namespace LogAgent.Agent
         protected override void HeartbitSend()
         {
 
-            // TODO : Heartbit에 어떤거 넣을건지 논의 필요 
+            // TODO : 추가 필요
+            // Heartbit 에는 현재 로그인한 사용자, Agent에 대한 정보, 버전 리스트가 들어간다.
             string loginUser = WindowsIdentity.GetCurrent().Name;
 
-            // _agentInfo
-
             Console.WriteLine(loginUser);
-
-            // throw new NotImplementedException();
         }
 
         protected override bool ProcessCheck()
@@ -84,7 +81,11 @@ namespace LogAgent.Agent
             bool IsUpdate = false;
 
             //TODO : 전체 리스트를 보내면 너무 많다. 이부분에 대한 논의 필요
-            // string loginUser = WindowsIdentity.GetCurrent().Name;
+            // 동작 
+            // 1. 현재 동작하는 프로세스 리스트를 가지고온다.
+            // 2. 차단 리스트를 받아온다. 차단 리스트와 비교 한다. 
+            // 3. 이전 프로세스 리스트와 현재 프로세스 리스트를 비교한다.
+            // 4. 해당 리스트를 서버에 전송한다.
             try
             {
                Process[] allProc = Process.GetProcesses();
@@ -102,7 +103,7 @@ namespace LogAgent.Agent
                     IsUpdate = true;
                 }
                 else
-                {
+                { 
                     if (tempProcess.Count != preProcess.Count)
                     {
                         preProcess = tempProcess;
@@ -131,6 +132,7 @@ namespace LogAgent.Agent
             {
                 foreach (var item in preProcess)
                 {
+                    // TODO 
                     Console.WriteLine(item.Value.ToString());
                 }
             }
