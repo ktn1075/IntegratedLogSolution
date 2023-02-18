@@ -7,6 +7,6 @@
     "\\LogAgent\\LogAgent\\Common",
     "\\LogAgent\\packages"
   ],
-  "SelectedNode": "\\LogAgent\\LogAgent.sln",
+  "SelectedNode": "\\LogAgent\\LogAgent\\Agent\\WindowsAgent.cs",
   "PreviewInSolutionExplorer": false
 }
