@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace LogAgent.Agent
 {
-    class WindowsAgent :Agent
+    class WindowsAgent : Agent
     {
         AgentInfo _agentInfo = new AgentInfo();
         DenyListInfo _denyInfo = new DenyListInfo();
@@ -35,9 +35,9 @@ namespace LogAgent.Agent
 
         protected override void AgentAdd(string hMac)
         {
-            Dictionary<string,string> keyValuePairs = new Dictionary<string,string>();
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
-            keyValuePairs.Add("AgentId",hMac);
+            keyValuePairs.Add("AgentId", hMac);
 
             JObject jobj = null;
 
@@ -88,14 +88,14 @@ namespace LogAgent.Agent
             // 4. 해당 리스트를 서버에 전송한다.
             try
             {
-               Process[] allProc = Process.GetProcesses();
-               
-               Dictionary<int, string> tempProcess =new Dictionary<int, string>();
+                Process[] allProc = Process.GetProcesses();
 
-               foreach (Process p in allProc)
-               {
-                    tempProcess.Add(p.Id,p.ProcessName);
-               }
+                Dictionary<int, string> tempProcess = new Dictionary<int, string>();
+
+                foreach (Process p in allProc)
+                {
+                    tempProcess.Add(p.Id, p.ProcessName);
+                }
 
                 if (preProcess == null)
                 {
@@ -103,7 +103,7 @@ namespace LogAgent.Agent
                     IsUpdate = true;
                 }
                 else
-                { 
+                {
                     if (tempProcess.Count != preProcess.Count)
                     {
                         preProcess = tempProcess;
