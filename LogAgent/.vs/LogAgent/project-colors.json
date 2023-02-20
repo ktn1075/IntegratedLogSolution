@@ -15,7 +15,17 @@
       "ProjectGuid": "03b8ccb3-d3bc-4947-a8fb-651f270f785f",
       "DisplayName": "SimServer",
       "ColorIndex": 1
+    },
+    "8746ec87-6b1d-4c52-a6fd-2bcc5d30a93b": {
+      "ProjectGuid": "8746ec87-6b1d-4c52-a6fd-2bcc5d30a93b",
+      "DisplayName": "ConsoleApp1",
+      "ColorIndex": 2
+    },
+    "6eea79c3-e406-4d54-864a-e875d1e46fa6": {
+      "ProjectGuid": "6eea79c3-e406-4d54-864a-e875d1e46fa6",
+      "DisplayName": "SimpleServer",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 4
 }

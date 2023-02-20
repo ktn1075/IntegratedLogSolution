@@ -22,7 +22,7 @@ namespace LogAgent.Agent
 
         public override int RestServerPort => 50000;
 
-        readonly string AGENT_ADD_URL = "agent/add";
+        public override string ADD_URL => "agent/add";
 
         public WindowsAgent(string hMac)
         {
@@ -30,7 +30,7 @@ namespace LogAgent.Agent
         }
 
         // Server 등록 요청 시 등록여부 관계 없이 무조건 AgentInfo를 받아온다.
-        // 처음 등록시에는 새로 생성된 정보 , 등록 이후에는 hMac에 해당되는 정보를 받아온다.
+        // 처음 등록시에는 새로 생성된 정보 등록 이후에는 hMac에 해당되는 정보를 받아온다.
         // 서버로 부터 해당 값을 받을때 까지 시간 지연을 하면서 요청한다.
 
         protected override void AgentAdd(string hMac)
@@ -45,7 +45,7 @@ namespace LogAgent.Agent
 
             while (jobj == null)
             {
-                jobj = ServerRequest(AGENT_ADD_URL, keyValuePairs) as JObject;
+                jobj = ServerRequest(ADD_URL, keyValuePairs) as JObject;
 
                 // mesc * 1000 = 1초
                 // 요청회수 30번 이전까지는 1초에 한번, 90번이전까지는 3초에 한번 이후 부터는 1분에 한번씩 요청한다.
@@ -83,8 +83,8 @@ namespace LogAgent.Agent
             //TODO : 전체 리스트를 보내면 너무 많다. 이부분에 대한 논의 필요
             // 동작 
             // 1. 현재 동작하는 프로세스 리스트를 가지고온다.
-            // 2. 차단 리스트를 받아온다. 차단 리스트와 비교 한다. 
-            // 3. 이전 프로세스 리스트와 현재 프로세스 리스트를 비교한다.
+            // 2. 차단 리스트와 현재 프로세스 리스트를 비교하여 차단 리스트에 등록된 프로세스 존재시 DenyList에 추가한다.
+            // 3. 이전 프로세스 리스트와 현재 프로세스 리스트를 비교한다. 변동 사항이 있는 경우 
             // 4. 해당 리스트를 서버에 전송한다.
             try
             {

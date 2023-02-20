@@ -11,7 +11,6 @@ using Newtonsoft.Json;
  *  SetResHandlers 에 API 추가 하면된다.
  */
 
-
 namespace SimpleServer
 {
     public partial class Program
@@ -26,6 +25,7 @@ namespace SimpleServer
 
             _server.Start();
 
+            // 아무 버튼이나 누를 경우 서버는 종료된다.
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }

@@ -23,6 +23,9 @@ namespace LogAgent.Agent
         public abstract string RestServerHostName { get; }
         public abstract int RestServerPort { get; }
         
+        // TODO:  리소스 클래스를 추가하여 관리한다.
+        public abstract string ADD_URL { get; }
+
         /*
         * 서버, 프로그램, 패키지 다양한 환경에서 처리를 위해 추상 클래스로 작성 
         */
