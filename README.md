@@ -100,25 +100,47 @@
 ## API 설계 
 
 ### 1단계 
-1. 에이전트 등록 및 조회 API
+1. 에이전트 등록 API(agent 정보 조회, 신규등록)
  - Reqeust 
-   - BODY
+   - body
     - type : json 
     - filed : hMac[암호화된 맥 주소], alias[별칭]
  - Response
    - header
-    - status :  
+      - status : 성공 200, 잘못된요청 400, 차단된사용자 403
+   - body 
+      - type : json 
+      - filed : agentId, groupId 
 
+2. 정책 수신 API : 
+ - Reqeust 
+   - body
+      - type : json 
+      - filed : hMac[암호화된 맥 주소], ruleVer, agentId, groupId 
+ - Response
+   - header
+      - status : 성공 200, 잘못된요청 400, 룰 버전 동일시 204, 차단된사용자 403  
+   - body 
+      - type : json 
+      - filed : rules[{ruleId,ruleNm,ruleType,modiDt,content}] 차단 rule 경우 programNm[]
 
+3. 로그 수신 API :
+ - Reqeust 
+   - body
+      - type : json 
+      - filed : hMac[암호화된 맥 주소], ruleVer, ruleId, ruleType, alertTm, content, agentId, groupId,
+ - Response
+   - header
+      - status : 성공 200, 잘못된요청 400
 
-
-
-
-
-
-
-
-
+4. agent health(에이전트 상태) check api 
+ - Reqeust 
+   - body
+      - type : json 
+      - filed : hMac[암호화된 맥 주소], agentId, groupId, processList[]
+ - Response
+   - header
+      - status : 성공 200, 잘못된요청 400
 </br>
 
 ## 제한사항 
