@@ -35,11 +35,13 @@ namespace LogAgent.Agent
 
         protected override void AgentAdd(string hMac)
         {
+            _logger.Info("---------- agent 등록 프로세스 시작---------");
+
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
             keyValuePairs.Add("agentId", hMac);
             // TODO : 접속 중인 alIas  
-            keyValuePairs.Add("alias","ktn1075");
+           // keyValuePairs.Add("alias","ktn1075");
 
             JObject jobj = null;
 
@@ -61,7 +63,7 @@ namespace LogAgent.Agent
             _agentInfo.hMac = hMac;
             _agentInfo.alias = "ktn1075";
 
-            //
+            _logger.Info("---------- agent 등록 프로세스 완료---------");
 
         }
 
@@ -79,8 +81,6 @@ namespace LogAgent.Agent
             // TODO : 추가 필요
             // Heartbit 에는 현재 로그인한 사용자, Agent에 대한 정보, 버전 리스트가 들어간다.
             string loginUser = WindowsIdentity.GetCurrent().Name;
-
-            Console.WriteLine(loginUser);
         }
 
         protected override bool ProcessCheck()
@@ -140,7 +140,7 @@ namespace LogAgent.Agent
                 foreach (var item in preProcess)
                 {
                     // TODO 
-                    Console.WriteLine(item.Value.ToString());
+                    //  Console.WriteLine(item.Value.ToString());
                 }
             }
             return false;

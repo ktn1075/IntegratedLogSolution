@@ -13,7 +13,7 @@ namespace LogAgent.Agent
     public abstract class Agent
     {
         private Thread _t;
-        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        protected static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         // 서버로 HEART_BIT를 전송하는 시간
         private const long HEARTBIT_INTERVAL = 30;
@@ -133,6 +133,14 @@ namespace LogAgent.Agent
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     return JObject.Parse(response.Content);
+                else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    return new JObject("success");
+                // 해당 agent 차단된 정보이므로 프로그램 삭제 시킨다.
+                else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    // TODO 삭제  MSI 호출
+                    return null;
+                else
+                    return null;
             }
             catch (Exception ex)
             {

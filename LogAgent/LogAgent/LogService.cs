@@ -38,6 +38,8 @@ namespace LogAgent
 
         protected void Start(string target)
         {
+            _logger.Info("AgentService Start");
+
             _s = new Thread(() =>
             {
                 try
