@@ -28,6 +28,8 @@
 
 </br>
 
+## 1단계 
+
 ## 1.  기능 
 
 - 에이전트 프로그램 서버 등록 
@@ -55,6 +57,8 @@
 # Master
 
 </br>
+
+## 1단계 
 
 ## 1.  기능 
 
@@ -92,6 +96,7 @@
 
 ## DATABASE 
 
+## 1단계 
 ![image](https://github.com/ktn1075/IntegratedLogSolution/blob/main/DB%20%EC%84%A4%EA%B3%84.png)
 
 
