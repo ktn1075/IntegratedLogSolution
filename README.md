@@ -95,6 +95,29 @@
 ![image](https://github.com/ktn1075/IntegratedLogSolution/blob/main/DB%20%EC%84%A4%EA%B3%84.png)
 
 
+</br>
+
+## API 설계 
+
+### 1단계 
+1. 에이전트 등록 및 조회 API
+ - Reqeust 
+   - BODY
+    - type : json 
+    - filed : hMac[암호화된 맥 주소], alias[별칭]
+ - Response
+   - header
+    - status :  
+
+
+
+
+
+
+
+
+
+
 
 </br>
 
