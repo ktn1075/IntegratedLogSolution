@@ -37,7 +37,9 @@ namespace LogAgent.Agent
         {
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
-            keyValuePairs.Add("AgentId", hMac);
+            keyValuePairs.Add("agentId", hMac);
+            // TODO : 접속 중인 alIas  
+            keyValuePairs.Add("alias","ktn1075");
 
             JObject jobj = null;
 
@@ -56,6 +58,11 @@ namespace LogAgent.Agent
 
             //TODO : 추후 JSON에서 키 존재 여부를 확인해야 한다.
             _agentInfo = JsonConvert.DeserializeObject<AgentInfo>(jobj.ToString());
+            _agentInfo.hMac = hMac;
+            _agentInfo.alias = "ktn1075";
+
+            //
+
         }
 
         /*

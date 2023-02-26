@@ -150,13 +150,23 @@ namespace LogAgent.Agent
 
     class AgentInfo
     {
-        public String AgentId { get; set; }
-        public String GroupId { get; set; }
+        // 해당 데이터는 서버에서 만들어서 받아오는 데이터 
+        public string agentId { get; set; }
+        public string groupId { get; set; }
+        
+        // 해당 데이터는 agent에서 만드는 데이터 
+        public string hMac { get; set; } 
+        public string alias { get; set; }
+    }
+
+    class RuleData
+    {
+
+
     }
 
     class DenyListInfo
     {
         // rule id , 시간, 차단 리스트 , category
-
     }
 }
