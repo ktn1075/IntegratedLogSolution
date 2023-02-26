@@ -1,9 +1,3 @@
-# 개요
-
-
-
-</br>
-
 # 개발 계획
 
 ### 1단계 - Basic, 단순 로직 개발 (진행중)
@@ -24,11 +18,13 @@
 
 </br>
 
-# Agent
+# 1단계 - Basic
 
 </br>
 
-## 1단계 
+# Agent 
+
+</br>
 
 ## 1.  기능 
 
@@ -57,8 +53,6 @@
 # Master
 
 </br>
-
-## 1단계 
 
 ## 1.  기능 
 
@@ -96,7 +90,6 @@
 
 ## DATABASE 
 
-## 1단계 
 ![image](https://github.com/ktn1075/IntegratedLogSolution/blob/main/DB%20%EC%84%A4%EA%B3%84.png)
 
 
@@ -104,7 +97,6 @@
 
 ## API 설계 
 
-### 1단계 
 1. 에이전트 등록 API(agent 정보 조회, 신규등록)
  - Reqeust 
    - body
