@@ -11,7 +11,7 @@
 - batch, rule engine, Flunt bit
 - 여러 룰 추가, 이벤트 로그 등등
 
-### 3단계 - 빅데이터 기반 처리 ()
+### 3단계 - 빅데이터 기반 처리 (예정)
 - kafka, elk
 - hdfs, spark streaming - 실시간 및 데이터 저장
 - 에이전트 다양화
