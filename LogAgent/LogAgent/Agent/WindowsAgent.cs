@@ -37,10 +37,10 @@ namespace LogAgent.Agent
         {
             _logger.Info("---------- agent 등록 프로세스 시작---------");
 
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            var requestJobject = new JObject();
 
-            keyValuePairs.Add("agentId", hMac);
-            keyValuePairs.Add("alias", Environment.UserName);
+            requestJobject.Add("hMac", hMac);
+            requestJobject.Add("alias", Environment.UserName);
 
             JObject jobj = null;
 
@@ -48,7 +48,7 @@ namespace LogAgent.Agent
 
             while (jobj == null)
             {
-                jobj = ServerRequest(ADD_URL, new JObject(JsonConvert.SerializeObject(keyValuePairs))) as JObject;
+                jobj = ServerRequest(ADD_URL,requestJobject) as JObject;
 
                 // mesc * 1000 = 1초
                 // 요청회수 30번 이전까지는 1초에 한번, 90번이전까지는 3초에 한번 이후 부터는 1분에 한번씩 요청한다.

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using Newtonsoft.Json;
 
 namespace LogAgent.Agent
 {
@@ -120,12 +121,11 @@ namespace LogAgent.Agent
 
                 var request = new RestRequest
                 {
-                    Method = Method.Get,
-                    Timeout = 1000,        // mesc 
-                    RequestFormat = DataFormat.Json
+                    Method = Method.Post,
+                    Timeout = 1000        // mesc 
                 };
 
-                request.AddJsonBody(param);
+                request.AddJsonBody(JsonConvert.SerializeObject(param));
 
                 RestResponse response = client.Execute(request);
 
