@@ -111,7 +111,7 @@ namespace LogAgent.Agent
             }
         }
 
-        protected JObject ServerRequest(string URL, JObject param)
+        protected JObject ServerRequest<T>(string URL, T param)
         {
             try
             {

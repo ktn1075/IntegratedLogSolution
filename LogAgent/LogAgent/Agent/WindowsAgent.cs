@@ -24,6 +24,8 @@ namespace LogAgent.Agent
 
         public override string ADD_URL => "agent/add";
 
+        private readonly string HEALTH_CHECK = "agent/healthcheck";
+
         public WindowsAgent(string hMac)
         {
             AgentAdd(hMac);
@@ -75,14 +77,10 @@ namespace LogAgent.Agent
          */
 
         protected override void HeartbitSend()
-        {
-
-            // TODO : 추가 필요
-            // Heartbit 에는 현재 로그인한 사용자, Agent에 대한 정보, 버전 리스트가 들어간다.
-
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+        { 
 
 
+            ServerRequest(HEALTH_CHECK, _agentInfo);
         }
 
         protected override bool ProcessCheck()
