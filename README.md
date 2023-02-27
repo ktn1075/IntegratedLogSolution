@@ -134,7 +134,7 @@
  - Reqeust 
    - body
       - type : json 
-      - filed : hMac[암호화된 맥 주소], agentId, groupId, processList[]
+      - filed : hMac[암호화된 맥 주소], agentId, groupId, alias[별칭], processList[]
  - Response
    - header
       - status : 성공 200, 잘못된요청 400
