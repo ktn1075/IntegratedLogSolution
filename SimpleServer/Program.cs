@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WatsonWebserver;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-
 /*
  *  백엔드 서버가 개발 될때까지 API TEST를 위해 만든 서버이다.
  *  SetResHandlers 에 API 추가 하면된다.
@@ -25,16 +25,19 @@ namespace SimpleServer
 
             _server.Start();
 
-            // 아무 버튼이나 누를 경우 서버는 종료된다.
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
         }
 
         private static void SetRestHandlers()
         {
-            _server.Routes.Static.Add(HttpMethod.GET, "/agent/add", async (ctx) =>
+            _server.Routes.Static.Add(HttpMethod.POST, "/agent/add", async (ctx) =>
             {
                 Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+                var t = JsonConvert.DeserializeObject<Dictionary<string, string>>(ctx.Request.DataAsString);
+
+                Console.WriteLine(t["hMac"]);
 
                 keyValuePairs.Add("GroupId", "kwfkwefwkfnkafalwl230432jk3");
                 keyValuePairs.Add("AgentId", "awerawerwerwrawr");
