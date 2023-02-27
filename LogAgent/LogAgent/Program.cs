@@ -9,9 +9,7 @@ namespace LogAgent
 {
     internal static class Program
     {
-        /// <summary>
-        /// 해당 애플리케이션의 주 진입점입니다.
-        /// </summary>
+
         static void Main(string[] args)
         {
             // debuging 용 Conosle 실행

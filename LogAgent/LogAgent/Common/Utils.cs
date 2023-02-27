@@ -6,10 +6,11 @@ using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 /*
- *  윈도우 서비스는 영역 0에서 돌아가기 때문에 레지스트리에 접근하는게 문제가 없지만
- *  디버깅 시에는 관리자권한으로 ide를 실행해야 한다.
- */
+*  윈도우 서비스는 영역 0에서 돌아가기 때문에 레지스트리에 접근하는게 문제가 없지만
+*  디버깅 시에는 관리자권한으로 ide를 실행해야 한다.
+*/
 
 public static class RegistryManager
 {
@@ -61,7 +62,6 @@ public class SystemInfoManager
 
         return new List<string>();
     }
-    
 }
 
 public class Cryptor
@@ -78,10 +78,12 @@ public class Cryptor
         byte[] data = sha.ComputeHash(encoding.GetBytes(text));
 
         var sb = new StringBuilder();
+
         foreach (byte b in data)
         {
             sb.Append(b.ToString("x2"));
         }
+
         return sb.ToString();
     }
 }

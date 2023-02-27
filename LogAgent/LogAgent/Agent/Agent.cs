@@ -110,7 +110,7 @@ namespace LogAgent.Agent
             }
         }
 
-        protected JObject ServerRequest(string URL, Dictionary<string, string> param)
+        protected JObject ServerRequest(string URL, JObject param)
         {
             try
             {
@@ -121,13 +121,11 @@ namespace LogAgent.Agent
                 var request = new RestRequest
                 {
                     Method = Method.Get,
-                    Timeout = 1000        // mesc 
+                    Timeout = 1000,        // mesc 
+                    RequestFormat = DataFormat.Json
                 };
 
-                foreach (KeyValuePair<string, string> pair in param)
-                {
-                    request.AddParameter(pair.Key, pair.Value, ParameterType.QueryString);
-                }
+                request.AddJsonBody(param);
 
                 RestResponse response = client.Execute(request);
 

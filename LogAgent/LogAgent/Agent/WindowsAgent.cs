@@ -40,8 +40,7 @@ namespace LogAgent.Agent
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
             keyValuePairs.Add("agentId", hMac);
-            // TODO : 접속 중인 alIas  
-           // keyValuePairs.Add("alias","ktn1075");
+            keyValuePairs.Add("alias", Environment.UserName);
 
             JObject jobj = null;
 
@@ -49,7 +48,7 @@ namespace LogAgent.Agent
 
             while (jobj == null)
             {
-                jobj = ServerRequest(ADD_URL, keyValuePairs) as JObject;
+                jobj = ServerRequest(ADD_URL, new JObject(JsonConvert.SerializeObject(keyValuePairs))) as JObject;
 
                 // mesc * 1000 = 1초
                 // 요청회수 30번 이전까지는 1초에 한번, 90번이전까지는 3초에 한번 이후 부터는 1분에 한번씩 요청한다.
@@ -61,9 +60,9 @@ namespace LogAgent.Agent
             //TODO : 추후 JSON에서 키 존재 여부를 확인해야 한다.
             _agentInfo = JsonConvert.DeserializeObject<AgentInfo>(jobj.ToString());
             _agentInfo.hMac = hMac;
-            _agentInfo.alias = "ktn1075";
+            _agentInfo.alias = Environment.UserName;
 
-            _logger.Info("---------- agent 등록 프로세스 완료---------");
+            _logger.Info($"---------- {_agentInfo.alias} 등록 프로세스 완료---------");
 
         }
 
@@ -80,7 +79,10 @@ namespace LogAgent.Agent
 
             // TODO : 추가 필요
             // Heartbit 에는 현재 로그인한 사용자, Agent에 대한 정보, 버전 리스트가 들어간다.
-            string loginUser = WindowsIdentity.GetCurrent().Name;
+
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+
         }
 
         protected override bool ProcessCheck()
