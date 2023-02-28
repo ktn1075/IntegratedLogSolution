@@ -78,8 +78,6 @@ namespace LogAgent.Agent
 
         protected override void HeartbitSend()
         { 
-
-
             ServerRequest(HEALTH_CHECK, _agentInfo);
         }
 
@@ -146,9 +144,5 @@ namespace LogAgent.Agent
             return false;
         }
 
-        protected override void DenyListRequest()
-        {
-            // hamc 
-        }
     }
 }
