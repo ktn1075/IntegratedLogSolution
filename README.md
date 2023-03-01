@@ -119,13 +119,13 @@
       - status : 성공 200, 잘못된요청 400, 룰 버전 동일시 204, 차단된사용자 403  
    - body 
       - type : json 
-      - filed : rules[{ruleId,ruleNm,ruleType,ruleVer,content}] 차단 rule 경우 programNm[]
+      - filed : rules[{ruleId,ruleNm,ruleType,ruleVer,content}] content 필드에는 타이별 데이터 변동 차단 type일 경우 programNm[]
 
 3. 로그 수신 API :
  - Reqeust 
    - body
       - type : json 
-      - filed : hMac[암호화된 맥 주소], ruleVer, ruleId, ruleType, alertTm, content, agentId, groupId,
+      - filed : hMac[암호화된 맥 주소], ruleId, ruleType, alertTm, content, agentId, groupId,
  - Response
    - header
       - status : 성공 200, 잘못된요청 400
