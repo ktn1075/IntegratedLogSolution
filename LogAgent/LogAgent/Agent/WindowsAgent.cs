@@ -14,8 +14,10 @@ namespace LogAgent.Agent
 {
     class WindowsAgent : Agent
     {
-        AgentInfo _agentInfo = new AgentInfo();
-        DenyListInfo _denyInfo = new DenyListInfo();
+        private AgentInfo _agentInfo = new AgentInfo();
+
+        private Dictionary<string,RuleData> _rules = new Dictionary<string,RuleData>();
+
         Dictionary<int, string> preProcess;
 
         public override string RestServerHostName => "127.0.0.1";
@@ -28,7 +30,11 @@ namespace LogAgent.Agent
 
         public WindowsAgent(string hMac)
         {
+            // Agent 정보 받아오는 부분 
             AgentAdd(hMac);
+
+            // Rule 처음 수신
+
         }
 
         // Server 등록 요청 시 등록여부 관계 없이 무조건 AgentInfo를 받아온다.
@@ -59,7 +65,6 @@ namespace LogAgent.Agent
                 delayCount++;
             }
 
-            //TODO : 추후 JSON에서 키 존재 여부를 확인해야 한다.
             _agentInfo = JsonConvert.DeserializeObject<AgentInfo>(jobj.ToString());
             _agentInfo.hMac = hMac;
             _agentInfo.alias = Environment.UserName;
@@ -78,7 +83,12 @@ namespace LogAgent.Agent
 
         protected override void HeartbitSend()
         { 
-            ServerRequest(HEALTH_CHECK, _agentInfo);
+            JObject jobj =  ServerRequest(HEALTH_CHECK, _agentInfo) as JObject;
+            
+            if(jobj != null)
+            {
+                /* jobj 내 룰 버전을 확인한다. */
+            }
         }
 
         protected override bool ProcessCheck()
@@ -144,5 +154,15 @@ namespace LogAgent.Agent
             return false;
         }
 
+        protected override void PolicyUpdate()
+        {
+            // 서버에서 룰이 어떻게 처리되어야 할까 
+
+
+
+
+
+
+        }
     }
 }

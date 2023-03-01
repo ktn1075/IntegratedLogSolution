@@ -90,7 +90,7 @@ namespace LogAgent.Agent
 
                 if  (now > lastDenyListChecked + DENY_LIST_INTERVAL * 1000)
                 {
-                    DenyListRequest();
+                    // TODO 차단 리스트 확인 
 
                     lastDenyListChecked = now;
                 }
@@ -135,7 +135,7 @@ namespace LogAgent.Agent
                     return new JObject("success");
                 // 해당 agent 차단된 정보이므로 프로그램 삭제 시킨다.
                 else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                    // TODO 삭제  MSI 호출
+                    // TODO MSI 패키지 삭제 코드 추가
                     return null;
                 else
                     return null;
@@ -151,6 +151,7 @@ namespace LogAgent.Agent
         protected abstract void AgentAdd(string hMac);
         protected abstract void HeartbitSend();
         protected abstract bool ProcessCheck();
+        protected abstract void PolicyUpdate();
     }
 
     class AgentInfo
@@ -166,12 +167,10 @@ namespace LogAgent.Agent
 
     class RuleData
     {
-
-
-    }
-
-    class DenyListInfo
-    {
-        // rule id , 시간, 차단 리스트 , category
+        public string ruleId { get; set; }
+        public string ruleVer { get; set; }
+        public string ruleNm { get; set; }
+        public string ruleType { get; set; }
+        public string content { get; set; }
     }
 }
