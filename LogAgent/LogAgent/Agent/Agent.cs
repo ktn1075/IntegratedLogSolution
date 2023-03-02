@@ -19,7 +19,6 @@ namespace LogAgent.Agent
         // 서버로 HEART_BIT를 전송하는 시간
         private const long HEARTBIT_INTERVAL = 30;
         private const long PROCESS_CHECK_INTERVAL = 2;
-        private const long DENY_LIST_INTERVAL = 600;
 
         public abstract string RestServerHostName { get; }
         public abstract int RestServerPort { get; }
@@ -81,19 +80,9 @@ namespace LogAgent.Agent
             // 프로세스 감시 시간 
             long lastProcessChecked = 0;
 
-            // 차단 리스트 업데이트 시간 
-            long lastDenyListChecked = 0;
-
             while (_t != null)
             {
                 var now = DateTime.Now.Ticks / 10_000;
-
-                if  (now > lastDenyListChecked + DENY_LIST_INTERVAL * 1000)
-                {
-                    // TODO 차단 리스트 확인 
-
-                    lastDenyListChecked = now;
-                }
 
                 if (now > heartBitChecked + HEARTBIT_INTERVAL * 1000)
                 {

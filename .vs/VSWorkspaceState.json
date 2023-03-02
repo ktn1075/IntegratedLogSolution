@@ -8,6 +8,6 @@
     "\\LogAgent\\packages",
     "\\SimpleServer"
   ],
-  "SelectedNode": "\\LogAgent\\LogAgent\\Agent\\WindowsAgent.cs",
+  "SelectedNode": "\\LogAgent\\LogAgent\\Agent\\Agent.cs",
   "PreviewInSolutionExplorer": false
 }
