@@ -31,6 +31,7 @@ namespace SimpleServer
 
         private static void SetRestHandlers()
         {
+            // agent 등록
             _server.Routes.Static.Add(HttpMethod.POST, "/agent/add", async (ctx) =>
             {
                 Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
@@ -44,6 +45,18 @@ namespace SimpleServer
 
                 await ctx.Response.Send(JsonConvert.SerializeObject(keyValuePairs));
             });
+
+
+            // agent 동작여부 검사 
+            _server.Routes.Static.Add(HttpMethod.POST, "/agent/healthcheck", async (ctx) =>
+            {
+                Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+                await ctx.Response.Send("success");
+            });
+
+
+
         }
     }
 }
