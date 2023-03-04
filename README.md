@@ -113,7 +113,7 @@
  - Reqeust 
    - body
       - type : json 
-      - filed : hMac[암호화된 맥 주소], ruleVer[], agentId, groupId, ruleId, alias
+      - filed : hMac[암호화된 맥 주소], rules["ruleVer","ruleId"] , agentId, groupId, alias
  - Response
    - header
       - status : 성공 200, 잘못된요청 400, 룰 버전 동일시 204, 차단된사용자 403  
