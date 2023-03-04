@@ -88,6 +88,9 @@ namespace LogAgent.Agent
             if(jobj != null)
             {
                 /* jobj 내 룰 버전을 확인한다. */
+
+
+
             }
         }
 
@@ -157,6 +160,17 @@ namespace LogAgent.Agent
         protected override void PolicyUpdate()
         {
             // 서버에서 룰이 어떻게 처리되어야 할까 
+            // 다수의 프로그램 차단 정책이 있는경우 or 조건으로 처리?
+
+            JArray jList = new JArray();
+
+            foreach (var item in _rules)
+            {
+                jList.Add(item);
+            }
+
+            JObject keyValuePairs = new JObject();
+
 
 
 
