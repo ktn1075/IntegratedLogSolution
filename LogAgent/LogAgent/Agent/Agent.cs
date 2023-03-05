@@ -23,9 +23,6 @@ namespace LogAgent.Agent
         public abstract string RestServerHostName { get; }
         public abstract int RestServerPort { get; }
         
-        // TODO:  리소스 클래스를 추가하여 관리한다.
-        public abstract string ADD_URL { get; }
-
         /*
         * 서버, 프로그램, 패키지 다양한 환경에서 처리를 위해 추상 클래스로 작성 
         */
@@ -72,13 +69,16 @@ namespace LogAgent.Agent
             _t.Start();
         }
 
-        private  void Monitor()
+        private void Monitor()
         {
             // 프로그램 동작 여부 전송 시간 
             long heartBitChecked = 0;
 
             // 프로세스 감시 시간 
             long lastProcessChecked = 0;
+
+            // 처음 시작시 무조건 한번 호출 한다.
+            PolicyUpdate();
 
             while (_t != null)
             {
@@ -124,17 +124,21 @@ namespace LogAgent.Agent
                     return new JObject("success");
                 // 해당 agent 차단된 정보이므로 프로그램 삭제 시킨다.
                 else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                    // TODO MSI 패키지 삭제 코드 추가
+                {    // TODO MSI 패키지 삭제 코드 추가
+                    _logger.Debug("페이지 또는 리소스에 대한 권한이 없습니다. ");
                     return null;
+                }
                 else
+                {
+                    _logger.Debug($"Request Error : {response.StatusCode}");
                     return null;
+                }
             }
             catch (Exception ex)
             {
                 _logger.Error($"request 전송에러 : {0}",ex);
+                return null;
             }
-
-            return null;
         }
 
         protected abstract void AgentAdd(string hMac);

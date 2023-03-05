@@ -24,9 +24,11 @@ namespace LogAgent.Agent
 
         public override int RestServerPort => 50000;
 
-        public override string ADD_URL => "agent/add";
+        private readonly string ADD_URL = "agent/add";
 
-        private readonly string HEALTH_CHECK = "agent/healthcheck";
+        private readonly string HEALTH_CHECK_URL = "agent/healthcheck";
+
+        private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
 
         public WindowsAgent(string hMac)
         {
@@ -83,7 +85,7 @@ namespace LogAgent.Agent
 
         protected override void HeartbitSend()
         { 
-            JObject jobj =  ServerRequest(HEALTH_CHECK, _agentInfo) as JObject;
+            JObject jobj =  ServerRequest(HEALTH_CHECK_URL, _agentInfo) as JObject;
             
             if(jobj != null)
             {
@@ -159,24 +161,29 @@ namespace LogAgent.Agent
 
         protected override void PolicyUpdate()
         {
-            // 서버에서 룰이 어떻게 처리되어야 할까 
-            // 다수의 프로그램 차단 정책이 있는경우 or 조건으로 처리?
-
             JArray jList = new JArray();
+
+            // TEST 용 데이터  rule이 하나도 없는 경우에는 어찌하나?
+         //   _rules.Add("103020",new RuleData() { ruleVer ="10.101"});
+         //   _rules.Add("103021", new RuleData() { ruleVer = "10.103" });
 
             foreach (var item in _rules)
             {
-                jList.Add(item);
+                JObject tempJobject = new JObject();
+                tempJobject.Add("ruleId", item.Key);
+                tempJobject.Add("ruleVer", item.Value.ruleVer);
+                jList.Add(tempJobject);
             }
 
             JObject keyValuePairs = new JObject();
 
+            // agent 기본 정보
+            keyValuePairs.Add("agentId", _agentInfo.agentId);
+            keyValuePairs.Add("rules", jList);
 
-
-
-
-
-
+            // 받은 rule 정보 파싱해서 업데이트 하는 과정 필요
+            var test = ServerRequest(UPDATE_POLICY_URL, keyValuePairs);
+           
         }
     }
 }
