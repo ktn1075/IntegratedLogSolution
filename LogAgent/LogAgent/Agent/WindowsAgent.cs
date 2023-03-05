@@ -175,15 +175,16 @@ namespace LogAgent.Agent
                 jList.Add(tempJobject);
             }
 
-            JObject keyValuePairs = new JObject();
+            JObject policyData = new JObject();
 
             // agent 기본 정보
-            keyValuePairs.Add("agentId", _agentInfo.agentId);
-            keyValuePairs.Add("rules", jList);
+            policyData.Add("agentId", _agentInfo.agentId);
+            policyData.Add("rules", jList);
 
             // 받은 rule 정보 파싱해서 업데이트 하는 과정 필요
-            var test = ServerRequest(UPDATE_POLICY_URL, keyValuePairs);
+            var test = ServerRequest(UPDATE_POLICY_URL, policyData);
            
+            // rule update 확인
         }
     }
 }
