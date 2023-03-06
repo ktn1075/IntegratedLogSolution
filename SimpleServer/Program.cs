@@ -38,8 +38,6 @@ namespace SimpleServer
 
                 var t = JsonConvert.DeserializeObject<Dictionary<string, string>>(ctx.Request.DataAsString);
 
-                Console.WriteLine(t["hMac"]);
-
                 keyValuePairs.Add("GroupId", "kwfkwefwkfnkafalwl230432jk3");
                 keyValuePairs.Add("AgentId", "awerawerwerwrawr");
 
@@ -56,6 +54,26 @@ namespace SimpleServer
             });
 
 
+            _server.Routes.Static.Add(HttpMethod.POST, "/agent/updatepolicy", async (ctx) =>
+            {
+                Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+                JObject json_data = JObject.Parse(ctx.Request.DataAsString);
+                JToken arr_data = json_data["rules"];
+                JArray json_array = (JArray)arr_data;
+
+                Console.WriteLine(json_array.Count);
+
+                foreach (var item in json_array)
+                {
+                    Console.WriteLine(item.ToString());
+                }
+
+                keyValuePairs.Add("GroupId", "kwfkwefwkfnkafalwl230432jk3");
+                keyValuePairs.Add("AgentId", "awerawerwerwrawr");
+
+                await ctx.Response.Send(JsonConvert.SerializeObject(keyValuePairs));
+            });
 
         }
     }
