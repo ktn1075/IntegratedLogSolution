@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WatsonWebserver;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 /*
  *  백엔드 서버가 개발 될때까지 API TEST를 위해 만든 서버이다.
  *  SetResHandlers 에 API 추가 하면된다.
@@ -69,10 +70,25 @@ namespace SimpleServer
                     Console.WriteLine(item.ToString());
                 }
 
-                keyValuePairs.Add("GroupId", "kwfkwefwkfnkafalwl230432jk3");
-                keyValuePairs.Add("AgentId", "awerawerwerwrawr");
+                JArray jList = new JArray();
 
-                await ctx.Response.Send(JsonConvert.SerializeObject(keyValuePairs));
+                JObject tempJobject = new JObject();
+                tempJobject.Add("ruleId", "ktn122");
+                tempJobject.Add("ruleVer", "1.0.0");
+                jList.Add(tempJobject);
+
+                JObject tempJobject2= new JObject();
+                tempJobject2.Add("ruleId", "ktn122");
+                tempJobject2.Add("ruleVer", "1.0.0");
+                jList.Add(tempJobject2);
+
+                JObject policyData = new JObject();
+
+                policyData.Add("rules", jList);
+
+                // 반환값을 강제로 만들어 전송한다.
+
+                await ctx.Response.Send(JsonConvert.SerializeObject(policyData));
             });
 
         }
