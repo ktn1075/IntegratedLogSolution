@@ -164,9 +164,9 @@ namespace LogAgent.Agent
             JArray jList = new JArray();
 
             // TEST 용 데이터  rule이 하나도 없는 경우에는 어찌하나?
-         //   _rules.Add("103020",new RuleData() { ruleVer ="10.101"});
-         //   _rules.Add("103021", new RuleData() { ruleVer = "10.103" });
+            // _rules.Add("ktn122", new RuleData() { ruleVer ="10.101"});
 
+            // 기존에 있는 rule 전송 
             foreach (var item in _rules)
             {
                 JObject tempJobject = new JObject();
@@ -182,9 +182,21 @@ namespace LogAgent.Agent
             policyData.Add("rules", jList);
 
             // 받은 rule 정보 파싱해서 업데이트 하는 과정 필요
-            var test = ServerRequest(UPDATE_POLICY_URL, policyData);
-           
-            // rule update 확인
+            var responseData = ServerRequest(UPDATE_POLICY_URL, policyData) as JObject;
+
+            if (responseData != null)
+            {
+                JArray json_array = (JArray)responseData["rules"];
+
+                if (json_array.Count > 0)
+                {
+                    foreach (var rule in json_array)
+                    {
+                        string ruleId = rule["ruleId"].ToString();
+                        _rules[ruleId] = JsonConvert.DeserializeObject<RuleData>(JsonConvert.SerializeObject(rule));
+                    }
+                }
+            }
         }
     }
 }

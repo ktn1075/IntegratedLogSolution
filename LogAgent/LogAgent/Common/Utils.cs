@@ -64,6 +64,7 @@ public class SystemInfoManager
     }
 }
 
+
 public class Cryptor
 {
     // 해당 클래스는 자주 사용하기에 싱글톤 방식으로 만들어 놓고 사용한다.

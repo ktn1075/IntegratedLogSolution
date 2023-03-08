@@ -78,7 +78,7 @@ namespace SimpleServer
                 jList.Add(tempJobject);
 
                 JObject tempJobject2= new JObject();
-                tempJobject2.Add("ruleId", "ktn122");
+                tempJobject2.Add("ruleId", "ktn1223");
                 tempJobject2.Add("ruleVer", "1.0.0");
                 jList.Add(tempJobject2);
 
