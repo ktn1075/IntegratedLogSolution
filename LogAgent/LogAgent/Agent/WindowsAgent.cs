@@ -18,7 +18,11 @@ namespace LogAgent.Agent
 
         private Dictionary<string,RuleData> _rules = new Dictionary<string,RuleData>();
 
+        private 
+
         Dictionary<int, string> preProcess;
+
+        List<string> denyList = new List<string>();
 
         public override string RestServerHostName => "127.0.0.1";
 
@@ -29,6 +33,8 @@ namespace LogAgent.Agent
         private readonly string HEALTH_CHECK_URL = "agent/healthcheck";
 
         private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
+
+        private bool _IsUpdated = false;
 
         public WindowsAgent(string hMac)
         {
@@ -195,7 +201,21 @@ namespace LogAgent.Agent
                         string ruleId = rule["ruleId"].ToString();
                         _rules[ruleId] = JsonConvert.DeserializeObject<RuleData>(JsonConvert.SerializeObject(rule));
                     }
+
+                    _IsUpdated = true;
+
                 }
+
+                if (_IsUpdated)
+                {
+
+
+
+
+
+
+                }
+
             }
         }
     }
