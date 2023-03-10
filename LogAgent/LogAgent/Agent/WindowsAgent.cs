@@ -206,13 +206,16 @@ namespace LogAgent.Agent
 
                 }
 
+                // rullid와 동일한 경우 type 이 다수인 경우 처리가 불가능한다.
                 if (_IsUpdated)
                 {
-
-
-
-
-
+                    foreach (var rule in _rules)
+                    {
+                        if (rule.Value.ruleType == "PROCESS_DENY")
+                        {
+                            // ruleId 하나에는 
+                        }
+                    }
 
                 }
 

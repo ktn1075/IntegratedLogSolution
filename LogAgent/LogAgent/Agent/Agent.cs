@@ -167,7 +167,6 @@ namespace LogAgent.Agent
         public string ruleId { get; set; }
         public string ruleVer { get; set; }
         public string ruleNm { get; set; }
-        public string ruleType { get; set; }
         public string content { get; set; }
     }
 }
