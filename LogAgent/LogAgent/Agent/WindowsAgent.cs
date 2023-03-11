@@ -18,8 +18,6 @@ namespace LogAgent.Agent
 
         private Dictionary<string,RuleData> _rules = new Dictionary<string,RuleData>();
 
-        private 
-
         Dictionary<int, string> preProcess;
 
         List<string> denyList = new List<string>();
@@ -34,21 +32,18 @@ namespace LogAgent.Agent
 
         private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
 
-        private bool _IsUpdated = false;
+        private bool policyUpdate = false;
 
         public WindowsAgent(string hMac)
         {
-            // Agent 정보 받아오는 부분 
+            // Agent 정보 등록 및 조회
             AgentAdd(hMac);
-
-            // Rule 처음 수신
-
         }
+
 
         // Server 등록 요청 시 등록여부 관계 없이 무조건 AgentInfo를 받아온다.
         // 처음 등록시에는 새로 생성된 정보 등록 이후에는 hMac에 해당되는 정보를 받아온다.
         // 서버로 부터 해당 값을 받을때 까지 시간 지연을 하면서 요청한다.
-
         protected override void AgentAdd(string hMac)
         {
             _logger.Info("---------- agent 등록 프로세스 시작---------");
@@ -81,6 +76,7 @@ namespace LogAgent.Agent
 
         }
 
+
         /*
              Request : 실행중인 APP 정보, 현재 세션 사용자, AppInfo 정보를 보낸다. 
              Response : x
@@ -88,7 +84,6 @@ namespace LogAgent.Agent
              30초 단위로 계속해서 서버로 정보를 전송하고, 프로그램 실행과 밀접한 연관이 없기때문에
              계속해서 전송하지는 않는다.
          */
-
         protected override void HeartbitSend()
         { 
             JObject jobj =  ServerRequest(HEALTH_CHECK_URL, _agentInfo) as JObject;
@@ -101,6 +96,7 @@ namespace LogAgent.Agent
 
             }
         }
+
 
         protected override bool ProcessCheck()
         {
@@ -165,6 +161,7 @@ namespace LogAgent.Agent
             return false;
         }
 
+
         protected override void PolicyUpdate()
         {
             JArray jList = new JArray();
@@ -187,38 +184,47 @@ namespace LogAgent.Agent
             policyData.Add("agentId", _agentInfo.agentId);
             policyData.Add("rules", jList);
 
-            // 받은 rule 정보 파싱해서 업데이트 하는 과정 필요
+            //1. 현재 agent가 가지고 있는 rule 업데이트 여부를 서버에 질의한다.
             var responseData = ServerRequest(UPDATE_POLICY_URL, policyData) as JObject;
 
             if (responseData != null)
             {
                 JArray json_array = (JArray)responseData["rules"];
 
+                // 2. 서버에서 업데이트 된 rule 있을시 _rules 를 업데이트 한다.
                 if (json_array.Count > 0)
                 {
                     foreach (var rule in json_array)
                     {
                         string ruleId = rule["ruleId"].ToString();
                         _rules[ruleId] = JsonConvert.DeserializeObject<RuleData>(JsonConvert.SerializeObject(rule));
-                    }
 
-                    _IsUpdated = true;
-
-                }
-
-                // rullid와 동일한 경우 type 이 다수인 경우 처리가 불가능한다.
-                if (_IsUpdated)
-                {
-                    foreach (var rule in _rules)
-                    {
-                        if (rule.Value.ruleType == "PROCESS_DENY")
+                        if (_rules[ruleId].content != null)
                         {
-                            // ruleId 하나에는 
+                            JObject t = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
+
+                           
+                            foreach (var policyType in t)
+                            {
+                                JArray detailContent;
+
+                                switch (policyType.ToString())
+                                {
+                                    case "deny-policy":
+                                        detailContent = (JArray)t["deny-policy"];
+
+                                        foreach (string denyFile in detailContent)
+                                        {
+                                            denyList.Add(denyFile);
+                                            Console.WriteLine(denyFile);
+                                        }
+
+                                        break;
+                                }
+                            }
                         }
                     }
-
                 }
-
             }
         }
     }

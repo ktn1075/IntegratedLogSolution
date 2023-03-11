@@ -75,11 +75,28 @@ namespace SimpleServer
                 JObject tempJobject = new JObject();
                 tempJobject.Add("ruleId", "ktn122");
                 tempJobject.Add("ruleVer", "1.0.0");
+
+
+                // 차단파일 리스트
+                JObject fobj = new JObject();
+                JArray tArray = new JArray();
+                tArray.Add("steam");
+                tArray.Add("steam2");
+                fobj.Add("deny-policy", tArray);
+                fobj.Add("access-policy", "755");
+                
+
+                tempJobject.Add("content", JsonConvert.SerializeObject(fobj));
                 jList.Add(tempJobject);
 
                 JObject tempJobject2= new JObject();
                 tempJobject2.Add("ruleId", "ktn1223");
                 tempJobject2.Add("ruleVer", "1.0.0");
+
+
+                // 차단 파일 리스트 2
+
+                tempJobject2.Add("content",  JsonConvert.SerializeObject(fobj));
                 jList.Add(tempJobject2);
 
                 JObject policyData = new JObject();
