@@ -32,8 +32,6 @@ namespace LogAgent.Agent
 
         private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
 
-        private bool policyUpdate = false;
-
         public WindowsAgent(string hMac)
         {
             // Agent 정보 등록 및 조회
@@ -87,14 +85,6 @@ namespace LogAgent.Agent
         protected override void HeartbitSend()
         { 
             JObject jobj =  ServerRequest(HEALTH_CHECK_URL, _agentInfo) as JObject;
-            
-            if(jobj != null)
-            {
-                /* jobj 내 룰 버전을 확인한다. */
-
-
-
-            }
         }
 
 
@@ -203,12 +193,11 @@ namespace LogAgent.Agent
                         {
                             JObject t = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
 
-                           
                             foreach (var policyType in t)
                             {
                                 JArray detailContent;
 
-                                switch (policyType.ToString())
+                                switch (policyType.Key)
                                 {
                                     case "deny-policy":
                                         detailContent = (JArray)t["deny-policy"];
@@ -219,6 +208,10 @@ namespace LogAgent.Agent
                                             Console.WriteLine(denyFile);
                                         }
 
+                                        break;
+                                    case "access-policy": 
+                                        break;
+                                    default:
                                         break;
                                 }
                             }

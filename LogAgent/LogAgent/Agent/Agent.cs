@@ -100,6 +100,7 @@ namespace LogAgent.Agent
             }
         }
 
+
         protected JObject ServerRequest<T>(string URL, T param)
         {
             try
@@ -147,6 +148,7 @@ namespace LogAgent.Agent
         protected abstract void PolicyUpdate();
     }
 
+
     class AgentInfo
     {
         // 해당 데이터는 서버에서 만들어서 받아오는 데이터 
@@ -158,10 +160,10 @@ namespace LogAgent.Agent
         public string alias { get; set; }
     }
 
+
     // 다수의 룰을 받아 에이전트에서 처리하는게 아니라 
     // 서버에서 다수의 룰을 통합하여 보내주는 식으로 해야 하지 않을까?
     // 아니면 어떻게 하지 ?
-
     class RuleData
     {
         public string ruleId { get; set; }
