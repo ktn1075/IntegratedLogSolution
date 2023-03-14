@@ -33,12 +33,8 @@
 - 차단 프로그램 리스트 수신 
   - Agent 처음 시작 시 서버에 요청하여 수신  
   - 처음 시작 후 Schedule 에 따라 서버에 요청
-
-- Agent 실행 중인 프로세스 리스트 전송
-  - 이전 프로세스 리스트와 비교 후 업데이트 된 경우 해당 내역 전송 
-
 - 차단된 프로그램 감시 기능
-  - 1초마다 차단된 리스트의 프로세스 확인
+  - 2초마다 차단된 리스트의 프로세스 확인
   - 해당 프로그램 종료
   - 조치 결과 전송 
 
@@ -134,7 +130,7 @@
  - Reqeust 
    - body
       - type : json 
-      - filed : hMac[암호화된 맥 주소], agentId, groupId, alias[별칭], processList[]
+      - filed : hMac[암호화된 맥 주소], agentId, groupId, alias[별칭]
  - Response
    - header
       - status : 성공 200, 잘못된요청 400
