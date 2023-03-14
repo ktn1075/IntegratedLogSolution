@@ -19,6 +19,7 @@ namespace LogAgent.Agent
         // 서버로 HEART_BIT를 전송하는 시간
         private const long HEARTBIT_INTERVAL = 30;
         private const long PROCESS_CHECK_INTERVAL = 2;
+        private const long POLICY_UPDATE_INTERVAL = 600;
 
         public abstract string RestServerHostName { get; }
         public abstract int RestServerPort { get; }
@@ -77,8 +78,7 @@ namespace LogAgent.Agent
             // 프로세스 감시 시간 
             long lastProcessChecked = 0;
 
-            // 처음 시작시 무조건 한번 호출 한다.
-            PolicyUpdate();
+            long lastPolicyUpdated = 0;
 
             while (_t != null)
             {
@@ -97,6 +97,16 @@ namespace LogAgent.Agent
 
                     lastProcessChecked = now;
                 }
+
+                // 서버에서 먼저 에이전트에게 명령을 내릴수 없기때문에 인터벌로 처리한다.
+                // 나중에 Heartbit 의 응답으로 해당 아이디의 정책 업데이트 여부를 받는식으로 처리한다.
+                if (now > lastPolicyUpdated + POLICY_UPDATE_INTERVAL * 1000)
+                {
+                    PolicyUpdate();
+
+                    lastPolicyUpdated = now;
+                }
+
             }
         }
 

@@ -74,7 +74,6 @@ namespace LogAgent.Agent
 
         }
 
-
         /*
              Request : 실행중인 APP 정보, 현재 세션 사용자, AppInfo 정보를 보낸다. 
              Response : x
@@ -83,8 +82,8 @@ namespace LogAgent.Agent
              계속해서 전송하지는 않는다.
          */
         protected override void HeartbitSend()
-        { 
-            JObject jobj =  ServerRequest(HEALTH_CHECK_URL, _agentInfo) as JObject;
+        {
+            ServerRequest(HEALTH_CHECK_URL, _agentInfo);
         }
 
 
@@ -92,12 +91,11 @@ namespace LogAgent.Agent
         {
             bool IsUpdate = false;
 
-            //TODO : 전체 리스트를 보내면 너무 많다. 이부분에 대한 논의 필요
+            // 기능이 변경되었다.
             // 동작 
-            // 1. 현재 동작하는 프로세스 리스트를 가지고온다.
-            // 2. 차단 리스트와 현재 프로세스 리스트를 비교하여 차단 리스트에 등록된 프로세스 존재시 DenyList에 추가한다.
-            // 3. 이전 프로세스 리스트와 현재 프로세스 리스트를 비교한다. 변동 사항이 있는 경우 
-            // 4. 해당 리스트를 서버에 전송한다.
+            // 1. 현재 실행중인 프로세스에 차단 프로세스가 있는지 확인한다.
+            // 2. 차단된 프로세스가 있는 경우 해당 프로세스를 종료한다.
+            // 3. 로그를 서버에 전송한다. 
             try
             {
                 Process[] allProc = Process.GetProcesses();
@@ -191,23 +189,22 @@ namespace LogAgent.Agent
 
                         if (_rules[ruleId].content != null)
                         {
-                            JObject t = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
+                            JObject contents = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
 
-                            foreach (var policyType in t)
+                            foreach (var policyType in contents)
                             {
                                 JArray detailContent;
 
                                 switch (policyType.Key)
                                 {
                                     case "deny-policy":
-                                        detailContent = (JArray)t["deny-policy"];
+                                        detailContent = (JArray)contents["deny-policy"];
 
                                         foreach (string denyFile in detailContent)
                                         {
                                             denyList.Add(denyFile);
                                             Console.WriteLine(denyFile);
                                         }
-
                                         break;
                                     case "access-policy": 
                                         break;
