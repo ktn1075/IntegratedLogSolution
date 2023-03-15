@@ -81,7 +81,7 @@ namespace SimpleServer
                 JObject fobj = new JObject();
                 JArray tArray = new JArray();
                 tArray.Add("steam");
-                tArray.Add("steam2");
+                tArray.Add("KakaoTalk");
                 fobj.Add("deny-policy", tArray);
                 fobj.Add("access-policy", "755");
                 

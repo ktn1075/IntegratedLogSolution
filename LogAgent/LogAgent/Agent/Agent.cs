@@ -154,7 +154,7 @@ namespace LogAgent.Agent
 
         protected abstract void AgentAdd(string hMac);
         protected abstract void HeartbitSend();
-        protected abstract bool ProcessCheck();
+        protected abstract void ProcessCheck();
         protected abstract void PolicyUpdate();
     }
 

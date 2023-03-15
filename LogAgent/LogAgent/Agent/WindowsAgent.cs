@@ -20,7 +20,7 @@ namespace LogAgent.Agent
 
         Dictionary<int, string> preProcess;
 
-        List<string> denyList = new List<string>();
+        Dictionary<string, string> denyList = new Dictionary<string, string>();
 
         public override string RestServerHostName => "127.0.0.1";
 
@@ -31,6 +31,8 @@ namespace LogAgent.Agent
         private readonly string HEALTH_CHECK_URL = "agent/healthcheck";
 
         private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
+
+
 
         public WindowsAgent(string hMac)
         {
@@ -87,10 +89,8 @@ namespace LogAgent.Agent
         }
 
 
-        protected override bool ProcessCheck()
+        protected override void ProcessCheck()
         {
-            bool IsUpdate = false;
-
             // 기능이 변경되었다.
             // 동작 
             // 1. 현재 실행중인 프로세스에 차단 프로세스가 있는지 확인한다.
@@ -98,57 +98,23 @@ namespace LogAgent.Agent
             // 3. 로그를 서버에 전송한다. 
             try
             {
+
+                // process 를 어떻게 처리하지?
                 Process[] allProc = Process.GetProcesses();
-
-                Dictionary<int, string> tempProcess = new Dictionary<int, string>();
-
-                foreach (Process p in allProc)
+                foreach (var proc in allProc)
                 {
-                    tempProcess.Add(p.Id, p.ProcessName);
-                }
-
-                if (preProcess == null)
-                {
-                    preProcess = tempProcess;
-                    IsUpdate = true;
-                }
-                else
-                {
-                    if (tempProcess.Count != preProcess.Count)
+                    if(denyList.ContainsKey(proc.ProcessName))
                     {
-                        preProcess = tempProcess;
-                        IsUpdate = true;
-                    }
-                    else
-                    {
-                        foreach (var item in tempProcess)
-                        {
-                            if (!preProcess.ContainsKey(item.Key))
-                            {
-                                preProcess = tempProcess;
-                                IsUpdate = true;
-                                break;
-                            }
-                        }
+                        Console.WriteLine(proc.ProcessName);
                     }
                 }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
-
-            if (IsUpdate)
-            {
-                foreach (var item in preProcess)
-                {
-                    // TODO 
-                    //  Console.WriteLine(item.Value.ToString());
-                }
-            }
-            return false;
         }
-
 
         protected override void PolicyUpdate()
         {
@@ -189,21 +155,23 @@ namespace LogAgent.Agent
 
                         if (_rules[ruleId].content != null)
                         {
-                            JObject contents = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
+                            JObject content = (JObject)JsonConvert.DeserializeObject(_rules[ruleId].content);
 
-                            foreach (var policyType in contents)
+                            foreach (var policy in content)
                             {
                                 JArray detailContent;
 
-                                switch (policyType.Key)
+                                switch (policy.Key)
                                 {
                                     case "deny-policy":
-                                        detailContent = (JArray)contents["deny-policy"];
+                                        detailContent = (JArray)content["deny-policy"];
 
                                         foreach (string denyFile in detailContent)
                                         {
-                                            denyList.Add(denyFile);
-                                            Console.WriteLine(denyFile);
+                                            if (!denyList.ContainsKey(denyFile))
+                                            {
+                                                denyList.Add(denyFile, ruleId);
+                                            }
                                         }
                                         break;
                                     case "access-policy": 
