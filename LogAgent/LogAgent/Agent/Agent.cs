@@ -132,7 +132,8 @@ namespace LogAgent.Agent
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     return JObject.Parse(response.Content);
                 else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                    return new JObject("success");
+                    // 불필요한 코드인데 이걸 어떻게 해결할까
+                    return new JObject();
                 // 해당 agent 차단된 정보이므로 프로그램 삭제 시킨다.
                 else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {    // TODO MSI 패키지 삭제 코드 추가
@@ -168,6 +169,11 @@ namespace LogAgent.Agent
         // 해당 데이터는 agent에서 만드는 데이터 
         public string hMac { get; set; } 
         public string alias { get; set; }
+
+        public static implicit operator JObject(AgentInfo v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

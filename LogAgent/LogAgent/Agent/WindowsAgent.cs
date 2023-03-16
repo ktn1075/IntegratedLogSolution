@@ -105,7 +105,8 @@ namespace LogAgent.Agent
                 {
                     if(denyList.ContainsKey(proc.ProcessName))
                     {
-                        Console.WriteLine(proc.ProcessName);
+                        _logger.Info($"Deny Process Kill : {proc.ProcessName}");
+                        proc.Kill();
                     }
                 }
 
