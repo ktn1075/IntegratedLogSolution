@@ -55,6 +55,15 @@ namespace SimpleServer
             });
 
 
+            _server.Routes.Static.Add(HttpMethod.POST, "/agent/log", async (ctx) =>
+            {
+                JObject json_data = JObject.Parse(ctx.Request.DataAsString);
+                Console.WriteLine(json_data);
+                ctx.Response.StatusCode = 204;
+                await ctx.Response.Send("success");
+            });
+
+
             _server.Routes.Static.Add(HttpMethod.POST, "/agent/updatepolicy", async (ctx) =>
             {
                 Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();

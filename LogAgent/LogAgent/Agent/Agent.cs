@@ -133,17 +133,15 @@ namespace LogAgent.Agent
                     return JObject.Parse(response.Content);
                 else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     // 불필요한 코드인데 이걸 어떻게 해결할까
-                    return new JObject();
+                    _logger.Info("204");
                 // 해당 agent 차단된 정보이므로 프로그램 삭제 시킨다.
                 else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {    // TODO MSI 패키지 삭제 코드 추가
                     _logger.Debug("페이지 또는 리소스에 대한 권한이 없습니다. ");
-                    return null;
                 }
                 else
                 {
                     _logger.Debug($"Request Error : {response.StatusCode}");
-                    return null;
                 }
             }
             catch (Exception ex)
@@ -151,6 +149,8 @@ namespace LogAgent.Agent
                 _logger.Error($"request 전송에러 : {0}",ex);
                 return null;
             }
+
+            return null;
         }
 
         protected abstract void AgentAdd(string hMac);

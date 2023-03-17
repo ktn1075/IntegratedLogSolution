@@ -32,7 +32,7 @@ namespace LogAgent.Agent
 
         private readonly string UPDATE_POLICY_URL = "agent/updatepolicy";
 
-
+        private readonly string LOG_URL = "agent/log";
 
         public WindowsAgent(string hMac)
         {
@@ -88,7 +88,7 @@ namespace LogAgent.Agent
             ServerRequest(HEALTH_CHECK_URL, _agentInfo);
         }
 
-
+        
         protected override void ProcessCheck()
         {
             // 기능이 변경되었다.
@@ -98,22 +98,34 @@ namespace LogAgent.Agent
             // 3. 로그를 서버에 전송한다. 
             try
             {
-
-                // process 를 어떻게 처리하지?
                 Process[] allProc = Process.GetProcesses();
                 foreach (var proc in allProc)
                 {
+                    // 안꺼지는 process에 대해 어떻게 처리 할건지 ?
                     if(denyList.ContainsKey(proc.ProcessName))
                     {
                         _logger.Info($"Deny Process Kill : {proc.ProcessName}");
                         proc.Kill();
+                        
+                        // 각 로그 log 전송을 위한 클래스를 만들어서 처리해야 하나?
+                        JObject jobj = new JObject();
+                        jobj.Add("agentId", _agentInfo.agentId);
+                        jobj.Add("hMac", _agentInfo.hMac);
+                        jobj.Add("groupId", _agentInfo.groupId);
+                        jobj.Add("alias", _agentInfo.alias);
+                        jobj.Add("ruleType", "denyProcess");
+                        jobj.Add("ruleId", denyList[proc.ProcessName]);
+                        jobj.Add("alertTm",DateTime.UtcNow);
+                        jobj.Add("content",proc.ProcessName);
+
+                        ServerRequest(LOG_URL, jobj);
                     }
                 }
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Error($"LOG 전송실패{ex}");
             }
         }
 
