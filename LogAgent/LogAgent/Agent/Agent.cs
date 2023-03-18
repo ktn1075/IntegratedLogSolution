@@ -107,6 +107,7 @@ namespace LogAgent.Agent
                     lastPolicyUpdated = now;
                 }
 
+                Thread.Sleep(100);
             }
         }
 
